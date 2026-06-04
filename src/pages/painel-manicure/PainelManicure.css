@@ -1,0 +1,727 @@
+/* Configurações Gerais - MOBILE FIRST */
+:root {
+  --primary: #1877f2;
+  --bg-body: #f0f2f5;
+  --text-main: #1c1e21;
+  --text-muted: #8d949e;
+  --white: #ffffff;
+  --red: #fa3e3e;
+  --green: #2ecc71;
+  --border: #ebedf0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.painel-wrapper {
+  min-height: 100vh;
+  background: var(--bg-body);
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+  color: var(--text-main);
+}
+
+/* Barra de Navegação Superior - MOBILE FIRST */
+.painel-nav {
+  background: var(--white);
+  padding: 0.75rem 4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 10px;
+}
+
+.logo-admin {
+  font-size: 1rem;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+  font-weight: 700;
+}
+
+.btn-logout {
+  background: #f1f2f6;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: 0.3s;
+  white-space: nowrap;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-logout:hover {
+  background: #dfe4ea;
+}
+
+.btn-logout:active {
+  transform: scale(0.98);
+}
+
+/* Layout do Grid - MOBILE FIRST (1 coluna) */
+.painel-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px 4%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Estilo Comum dos Cards - MOBILE FIRST */
+.card-admin {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.titulo-secao {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #2d3436;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Tabela de Agendamentos - MOBILE FIRST */
+.tabela-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th {
+  text-align: left;
+  padding: 10px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border);
+  font-weight: 700;
+}
+
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f0f2f5;
+  font-size: 0.85rem;
+  word-break: break-word;
+}
+
+.link-nome {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.link-nome:hover {
+  text-decoration: underline;
+}
+
+.link-nome:active {
+  opacity: 0.7;
+}
+
+.btn-concluir {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.8rem;
+  min-height: 44px;
+  transition: 0.2s;
+}
+
+.btn-concluir:active {
+  opacity: 0.8;
+}
+
+/* Gestão de Serviços/Produtos - MOBILE FIRST */
+.mt-20 {
+  margin-top: 16px;
+}
+
+.btn-add-servico {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+  min-height: 44px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-add-servico:active {
+  opacity: 0.8;
+}
+
+.form-servico {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border: 1px dashed #cbd5e0;
+}
+
+.form-servico input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-servico input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.1);
+}
+
+.form-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-save-s {
+  background: var(--text-main);
+  color: white;
+  flex: 1;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  min-height: 44px;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btn-save-s:active {
+  opacity: 0.8;
+}
+
+.btn-cancel-s {
+  background: #dfe4ea;
+  flex: 1;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  min-height: 44px;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btn-cancel-s:active {
+  opacity: 0.8;
+}
+
+.lista-produtos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-produtos li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 8px;
+  border-bottom: 1px solid #f0f2f5;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-height: 44px;
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.acoes button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 6px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.acoes button:active {
+  opacity: 0.6;
+}
+
+.acoes .txt-red {
+  color: var(--red);
+}
+
+/* Calendário Lateral - MOBILE FIRST */
+.agenda-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.agenda-nav button {
+  background: #f1f2f6;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: 0.2s;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.agenda-nav button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.agenda-nav button:active {
+  background: #dfe4ea;
+}
+
+.calendario-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.dia-box {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: 0.2s;
+  border: 1px solid transparent;
+  min-height: 40px;
+}
+
+.dia-box.on {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+
+.dia-box.off {
+  background: #ffebee;
+  color: #c62828;
+  text-decoration: line-through;
+  border-color: #ffcdd2;
+}
+
+/* Configuração de Horários - MOBILE FIRST */
+.btn-collapse {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--primary);
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  min-height: 44px;
+  transition: 0.2s;
+  text-align: left;
+}
+
+.btn-collapse:active {
+  background: #f8f9fa;
+}
+
+.horas-config {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  min-height: 44px;
+}
+
+.horas-config input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  min-height: 44px;
+  flex: 1;
+  min-width: 100px;
+}
+
+.horas-config input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.1);
+}
+
+.btn-principal {
+  width: 100%;
+  padding: 14px;
+  background: #2d3436;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1rem;
+  min-height: 48px;
+}
+
+.btn-principal:active {
+  background: #000;
+}
+
+/* Modal do Cliente (Perfil) - MOBILE FIRST */
+.modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.modal-perfil {
+  background: var(--white);
+  width: 100%;
+  max-width: 300px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  margin: auto;
+}
+
+.perfil-avatar {
+  width: 60px;
+  height: 60px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.perfil-dados {
+  text-align: left;
+  margin: 16px 0;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.perfil-dados p {
+  margin: 8px 0;
+}
+
+.btn-close {
+  width: 100%;
+  padding: 12px;
+  background: #2d3436;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  min-height: 44px;
+  transition: 0.2s;
+}
+
+.btn-close:active {
+  opacity: 0.8;
+}
+
+/* ============================================
+   MEDIA QUERIES - ADAPTAÇÃO RESPONSIVA
+   ============================================ */
+
+/* TABLET (768px e acima) */
+@media (min-width: 768px) {
+  .painel-nav {
+    padding: 0.8rem 5%;
+  }
+
+  .logo-admin {
+    font-size: 1.1rem;
+  }
+
+  .btn-logout {
+    padding: 8px 24px;
+    font-size: 0.9rem;
+  }
+
+  .painel-grid {
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    padding: 20px 5%;
+  }
+
+  .card-admin {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .titulo-secao {
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+  }
+
+  th {
+    padding: 12px;
+    font-size: 0.75rem;
+  }
+
+  td {
+    padding: 14px 12px;
+    font-size: 0.9rem;
+  }
+
+  .form-servico {
+    padding: 14px;
+  }
+
+  .form-servico input {
+    padding: 10px;
+  }
+
+  .calendario-grid {
+    gap: 5px;
+    margin-bottom: 18px;
+  }
+
+  .dia-box {
+    font-size: 0.85rem;
+    min-height: 44px;
+  }
+
+  .horas-config {
+    padding: 14px;
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+
+  .modal-perfil {
+    max-width: 340px;
+    padding: 1.8rem;
+  }
+
+  .perfil-avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+    margin: 0 auto 14px;
+  }
+
+  .perfil-dados {
+    font-size: 0.95rem;
+    margin: 18px 0;
+    line-height: 1.7;
+  }
+}
+
+/* DESKTOP (1024px e acima) */
+@media (min-width: 1024px) {
+  .painel-nav {
+    padding: 1rem 5%;
+  }
+
+  .logo-admin {
+    font-size: 1.2rem;
+  }
+
+  .btn-logout {
+    padding: 10px 28px;
+    font-size: 0.95rem;
+  }
+
+  .painel-grid {
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    padding: 24px 5%;
+  }
+
+  .card-admin {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .titulo-secao {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  th {
+    padding: 12px;
+    font-size: 0.8rem;
+  }
+
+  td {
+    padding: 16px 12px;
+    font-size: 0.95rem;
+  }
+
+  .form-servico {
+    padding: 15px;
+  }
+
+  .form-servico input {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .btn-add-servico {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .lista-produtos li {
+    padding: 12px 8px;
+  }
+
+  .calendario-grid {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .dia-box {
+    font-size: 0.85rem;
+  }
+
+  .agenda-nav button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .btn-collapse {
+    padding: 12px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+
+  .horas-config {
+    padding: 15px;
+    margin-bottom: 15px;
+    gap: 10px;
+  }
+
+  .btn-principal {
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+
+  .modal-perfil {
+    max-width: 360px;
+    padding: 2rem;
+  }
+
+  .perfil-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+    margin: 0 auto 16px;
+  }
+
+  .perfil-dados {
+    font-size: 1rem;
+    margin: 20px 0;
+    line-height: 1.8;
+  }
+}
+
+/* LARGE DESKTOP (1440px e acima) */
+@media (min-width: 1440px) {
+  .painel-grid {
+    gap: 28px;
+    padding: 28px 3%;
+  }
+
+  .card-admin {
+    padding: 24px;
+  }
+
+  th {
+    padding: 14px;
+  }
+
+  td {
+    padding: 18px 14px;
+  }
+}

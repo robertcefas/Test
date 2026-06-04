@@ -1,0 +1,125 @@
+/* 1. Container Principal (Igual ao Cadastro) */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+  padding: 20px;
+}
+
+/* 2. Cartão do Formulário */
+.login-container {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px; /* Login é mais estreito que o cadastro */
+  animation: slideUp 0.6s ease-out;
+  text-align: center;
+}
+
+.login-container h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: 700;
+  position: relative;
+}
+
+/* Linha decorativa abaixo do título */
+.login-container h1::after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  width: 40px;
+  background: #9b59b6;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+}
+
+/* 3. Estilo dos Inputs */
+.login-input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.login-input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.login-input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.login-input-group input:focus {
+  border-color: #9b59b6;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.15);
+}
+
+/* 4. Botão de Entrar */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #9b59b6, #8e44ad);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* 5. Link de Cadastro */
+.signup-link {
+  margin-top: 25px;
+  font-size: 15px;
+  color: #666;
+}
+
+.signup-link a {
+  text-decoration: none;
+  color: #9b59b6;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.signup-link a:hover {
+  color: #71b7e6;
+  text-decoration: underline;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

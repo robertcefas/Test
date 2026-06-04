@@ -1,0 +1,330 @@
+/* =========================================
+   VARIÁVEIS DE COR (Fácil de mudar depois)
+========================================= */
+:root {
+  --cor-primaria: #9b59b6; /* Roxo/Lilás da sua marca */
+  --cor-primaria-hover: #8e44ad;
+  --cor-texto: #1c1e21;
+  --cor-fundo: #f0f2f5;
+  --cor-erro: #fa3e3e;
+  --cor-desativado: #cbd5e1;
+}
+
+/* Estrutura Principal */
+.cliente-wrapper {
+  min-height: 100vh;
+  background: var(--cor-fundo);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.cliente-nav {
+  background: #ffffff;
+  padding: 1rem 5%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-sair {
+  background: #f1f2f6;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-sair:hover {
+  background: #e2e8f0;
+}
+
+/* Container do Card */
+.cliente-container {
+  padding: 20px 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.card-agenda-cliente {
+  background: #ffffff;
+  width: 100%;
+  max-width: 450px;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-agenda-cliente h2 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: var(--cor-texto);
+}
+
+/* Formulário de Agendamento */
+.select-servico {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.select-servico:focus {
+  border-color: var(--cor-primaria);
+}
+
+/* Calendário */
+.seletor-mes-cliente {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.mes-nome {
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #4b4f56;
+}
+
+.seletor-mes-cliente button {
+  background: #eee;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.seletor-mes-cliente button:hover {
+  background: #ddd;
+}
+.seletor-mes-cliente button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.calendario-cliente-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.dia-bolinha {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dia-bolinha.on {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+.dia-bolinha.on:hover {
+  background: #e2e8f0;
+}
+.dia-bolinha.off {
+  background: #ffebee;
+  color: var(--cor-erro);
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* NOVA COR: Dia Selecionado */
+.dia-bolinha.selected {
+  background: var(--cor-primaria);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(155, 89, 182, 0.3);
+}
+
+/* Horários e Animação */
+.expander-horas-cliente {
+  border: 1px solid #ebedf0;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.btn-toggle-horas-cliente {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  border: none;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  cursor: pointer;
+}
+
+/* Animação de Fade-in para os horários */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grid-horas-cliente {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 15px;
+  background: #f7f8fa;
+  animation: fadeInDown 0.3s ease forwards; /* Aplica a animação aqui */
+}
+
+.hora-item {
+  padding: 10px;
+  text-align: center;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.hora-item:hover {
+  border-color: var(--cor-primaria);
+}
+.hora-item.off {
+  background: #f1f1f1;
+  color: #a1a8b3;
+  border-color: #e2e2e2;
+  cursor: not-allowed;
+}
+
+.btn-confirmar-final {
+  width: 100%;
+  padding: 16px;
+  background: var(--cor-primaria);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-confirmar-final:hover:not(:disabled) {
+  background: var(--cor-primaria-hover);
+  transform: translateY(-2px);
+}
+
+/* ESTADO DESATIVADO DO BOTÃO */
+.btn-confirmar-final:disabled {
+  background: var(--cor-desativado);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Meus Horários */
+.meus-agendamentos-fixo {
+  margin-top: 32px;
+  border-top: 2px solid var(--cor-fundo);
+  padding-top: 20px;
+}
+
+.meus-agendamentos-fixo h3 {
+  font-size: 1rem;
+  color: var(--cor-texto);
+  margin-bottom: 15px;
+}
+
+.card-meu-horario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #ebedf0;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+.info strong {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+}
+.info span {
+  font-size: 0.85rem;
+  color: #65676b;
+  margin-top: 4px;
+}
+
+.btn-cancelar {
+  background: #fce9e9;
+  color: var(--cor-erro);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-cancelar:hover {
+  background: var(--cor-erro);
+  color: white;
+}
+
+/* Tela de Sucesso */
+.sucesso-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cor-fundo);
+  padding: 20px;
+}
+
+.card-sucesso {
+  background: white;
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.btn-novo {
+  background: var(--cor-primaria);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-novo:hover {
+  background: var(--cor-primaria-hover);
+}
