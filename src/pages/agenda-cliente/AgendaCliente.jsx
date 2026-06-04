@@ -111,17 +111,29 @@ function AgendaCliente() {
       : 18;
 
     const dias = [];
+    const primeiroDiaMes = new Date(anoAtivo, mesAtivo, 1).getDay();
+    for (let vazio = 0; vazio < primeiroDiaMes; vazio++) {
+      dias.push({ placeholder: true, key: `vazio-${vazio}` });
+    }
+
     for (let i = 1; i <= ultimoDia; i++) {
       const dataISO = `${anoAtivo}-${String(mesAtivo + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
       const bloqueado = configAgenda?.datasBloqueadas?.includes(dataISO);
-      const dataComparacao = new Date(`${dataISO}T00:00:00`);
+      const dataComparacao = new Date(anoAtivo, mesAtivo, i);
       const diaSemana = diasSemana[dataComparacao.getDay()];
 
       let disponivel = false;
       if (!bloqueado && dataComparacao >= hoje) {
         for (let hora = inicio; hora < fim; hora++) {
           const horaFormatada = `${String(hora).padStart(2, "0")}:00`;
-          const dataHora = new Date(`${dataISO}T${horaFormatada}:00`).getTime();
+          const dataHora = new Date(
+            anoAtivo,
+            mesAtivo,
+            i,
+            hora,
+            0,
+            0,
+          ).getTime();
           const estaPassado = dataHora <= agora;
           const jaAgendado = todosAgendamentos.some(
             (a) => a.data === dataISO && a.hora === horaFormatada,
@@ -148,9 +160,10 @@ function AgendaCliente() {
     const horas = [];
     const agora = Date.now();
 
+    const [ano, mes, dia] = agendamento.data.split("-").map(Number);
     for (let h = inicio; h < fim; h++) {
       const hora = `${String(h).padStart(2, "0")}:00`;
-      const dataHora = new Date(`${agendamento.data}T${hora}:00`).getTime();
+      const dataHora = new Date(ano, mes - 1, dia, h, 0, 0).getTime();
       const estaPassado = dataHora <= agora;
       const jaAgendado = todosAgendamentos.some(
         (a) => a.data === agendamento.data && a.hora === hora,
@@ -188,7 +201,9 @@ function AgendaCliente() {
 
   const obterStatusAgendamento = (dataAg, horaAg, agendamento) => {
     const agora = new Date();
-    const dataHoraAtendimento = new Date(`${dataAg}T${horaAg}:00`);
+    const [ano, mes, dia] = dataAg.split("-").map(Number);
+    const [hora, minuto] = horaAg.split(":").map(Number);
+    const dataHoraAtendimento = new Date(ano, mes - 1, dia, hora, minuto, 0);
     const diffHoras = (dataHoraAtendimento - agora) / (1000 * 60 * 60);
     const diffMinutos = Math.round(diffHoras * 60);
 
@@ -219,7 +234,9 @@ function AgendaCliente() {
 
   const cancelarHorario = (id, dataAg, horaAg) => {
     const agora = new Date();
-    const dataHoraAtendimento = new Date(`${dataAg}T${horaAg}:00`);
+    const [ano, mes, dia] = dataAg.split("-").map(Number);
+    const [hora, minuto] = horaAg.split(":").map(Number);
+    const dataHoraAtendimento = new Date(ano, mes - 1, dia, hora, minuto, 0);
     const diffHoras = (dataHoraAtendimento - agora) / (1000 * 60 * 60);
 
     if (diffHoras < 2) {
@@ -367,22 +384,26 @@ function AgendaCliente() {
               ))}
             </div>
             <div className="calendario-cliente-grid">
-              {diasVisiveis.map((dia) => (
-                <div
-                  key={dia.dataISO}
-                  className={`dia-bolinha ${!dia.disponivel ? "off" : agendamento.data === dia.dataISO ? "selected" : "on"}`}
-                  onClick={() =>
-                    dia.disponivel &&
-                    setAgendamento({
-                      ...agendamento,
-                      data: dia.dataISO,
-                      hora: "",
-                    })
-                  }
-                >
-                  {dia.numero}
-                </div>
-              ))}
+              {diasVisiveis.map((dia) =>
+                dia.placeholder ? (
+                  <div key={dia.key} className="dia-blank" />
+                ) : (
+                  <div
+                    key={dia.dataISO}
+                    className={`dia-bolinha ${!dia.disponivel ? "off" : agendamento.data === dia.dataISO ? "selected" : "on"}`}
+                    onClick={() =>
+                      dia.disponivel &&
+                      setAgendamento({
+                        ...agendamento,
+                        data: dia.dataISO,
+                        hora: "",
+                      })
+                    }
+                  >
+                    {dia.numero}
+                  </div>
+                ),
+              )}
             </div>
 
             {agendamento.data && (

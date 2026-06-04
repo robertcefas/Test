@@ -390,6 +390,12 @@ td {
   min-height: 40px;
 }
 
+.dia-blank {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: transparent;
+}
+
 .dia-box.on {
   background: #e8f5e9;
   color: #2e7d32;

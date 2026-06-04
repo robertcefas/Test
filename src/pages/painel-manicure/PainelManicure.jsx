@@ -72,7 +72,13 @@ function PainelManicure() {
 
   useEffect(() => {
     const ultimoDia = new Date(anoAtivo, mesAtivo + 1, 0).getDate();
+    const primeiroDiaMes = new Date(anoAtivo, mesAtivo, 1).getDay();
     const dias = [];
+
+    for (let vazio = 0; vazio < primeiroDiaMes; vazio++) {
+      dias.push({ placeholder: true, key: `vazio-${vazio}` });
+    }
+
     for (let i = 1; i <= ultimoDia; i++) {
       const dataFormatada = `${anoAtivo}-${String(mesAtivo + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
       dias.push({ data: dataFormatada, numero: i });
@@ -327,21 +333,19 @@ function PainelManicure() {
               ))}
             </div>
             <div className="calendario-grid">
-              {diasDoMes.map((item) => {
-                const isOff =
-                  configAgenda.datasBloqueadas.includes(item.data) ||
-                  new Date(item.data + "T00:00:00") <
-                    new Date().setHours(0, 0, 0, 0);
-                return (
+              {diasDoMes.map((item) =>
+                item.placeholder ? (
+                  <div key={item.key} className="dia-blank" />
+                ) : (
                   <div
                     key={item.data}
-                    className={`dia-box ${isOff ? "off" : "on"}`}
+                    className={`dia-box ${configAgenda.datasBloqueadas.includes(item.data) || new Date(item.data + "T00:00:00") < new Date().setHours(0, 0, 0, 0) ? "off" : "on"}`}
                     onClick={() => alternarData(item.data)}
                   >
                     {item.numero}
                   </div>
-                );
-              })}
+                ),
+              )}
             </div>
 
             <button

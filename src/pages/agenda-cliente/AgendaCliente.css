@@ -149,6 +149,13 @@
   transition: all 0.2s ease;
 }
 
+.dia-blank {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: transparent;
+  cursor: default;
+}
+
 .dia-bolinha.on {
   background: var(--cor-fundo);
   color: var(--cor-texto);
