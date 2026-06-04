@@ -10,6 +10,7 @@ function Login() {
   const [senha, setSenha] = useState("");
 
   // Função para o botão "Entrar"
+
   const handleLoginNormal = () => {
     const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
     const usuarioEncontrado = usuarios.find(

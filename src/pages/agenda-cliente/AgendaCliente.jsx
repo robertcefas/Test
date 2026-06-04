@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import WhatsAppLogo from "../../assets/whatsapp.png";
+import InstagramLogo from "../../assets/Instagram_icon.png";
 import "./AgendaCliente.css";
 
 function AgendaCliente() {
@@ -14,7 +16,11 @@ function AgendaCliente() {
   const [todosAgendamentos, setTodosAgendamentos] = useState([]);
   const [configAgenda, setConfigAgenda] = useState(null);
   const [mostrarHoras, setMostrarHoras] = useState(false);
+  const [mostrandoRevisao, setMostrandoRevisao] = useState(false);
   const [agendadoComSucesso, setAgendadoComSucesso] = useState(false);
+  const whatsappLink = "https://wa.me/5571996740584"; // coloque o WhatsApp aqui
+  const instagramLink =
+    "https://www.instagram.com/evelinnaiils__?igsh=NXlnYmIyaTlwOHMx"; // coloque o Instagram aqui
 
   const dataRef = new Date();
   const mesAtual = dataRef.getMonth();
@@ -59,6 +65,8 @@ function AgendaCliente() {
   const usuarioLogado = JSON.parse(
     localStorage.getItem("usuarioLogado") || "null",
   );
+
+  const diasSemana = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
 
   // Função para carregar dados do LocalStorage
   const carregarDados = () => {
@@ -107,6 +115,7 @@ function AgendaCliente() {
       const dataISO = `${anoAtivo}-${String(mesAtivo + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
       const bloqueado = configAgenda?.datasBloqueadas?.includes(dataISO);
       const dataComparacao = new Date(`${dataISO}T00:00:00`);
+      const diaSemana = diasSemana[dataComparacao.getDay()];
 
       let disponivel = false;
       if (!bloqueado && dataComparacao >= hoje) {
@@ -124,7 +133,7 @@ function AgendaCliente() {
         }
       }
 
-      dias.push({ dataISO, numero: i, disponivel });
+      dias.push({ dataISO, numero: i, disponivel, diaSemana });
     }
     setDiasVisiveis(dias);
   }, [mesAtivo, anoAtivo, configAgenda, todosAgendamentos]);
@@ -157,7 +166,11 @@ function AgendaCliente() {
       alert("Por favor, preencha todos os campos.");
       return;
     }
+    // Mostrar tela de revisão em vez de salvar direto
+    setMostrandoRevisao(true);
+  };
 
+  const confirmarAgendamentoFinal = () => {
     const novo = {
       id: Date.now(),
       clienteNome: usuarioLogado.nome,
@@ -169,7 +182,39 @@ function AgendaCliente() {
     localStorage.setItem("agendamentos", JSON.stringify([...banco, novo]));
 
     setAgendadoComSucesso(true);
+    setMostrandoRevisao(false);
     carregarDados();
+  };
+
+  const obterStatusAgendamento = (dataAg, horaAg, agendamento) => {
+    const agora = new Date();
+    const dataHoraAtendimento = new Date(`${dataAg}T${horaAg}:00`);
+    const diffHoras = (dataHoraAtendimento - agora) / (1000 * 60 * 60);
+    const diffMinutos = Math.round(diffHoras * 60);
+
+    let status = "agendado";
+    let podeCancel = true;
+    let mensagemStatus = "";
+
+    if (diffHoras < 0) {
+      status = "finalizado";
+      mensagemStatus = "✓ Finalizado";
+      podeCancel = false;
+    } else if (diffHoras < 2) {
+      status = "proximamente";
+      podeCancel = false;
+      mensagemStatus = `⏱️ Próximo em ${diffMinutos}min`;
+      if (diffHoras < 0.5) {
+        mensagemStatus = "🔔 Em Atendimento";
+      }
+    } else if (agendamento.horaAdiantada) {
+      status = "adiantado";
+      mensagemStatus = `⚡ Pode vir às ${agendamento.horaAdiantada}`;
+    } else {
+      mensagemStatus = `⏰ Cancelável por ${Math.floor(diffHoras)}h`;
+    }
+
+    return { status, podeCancel, mensagemStatus, diffHoras, diffMinutos };
   };
 
   const cancelarHorario = (id, dataAg, horaAg) => {
@@ -204,6 +249,50 @@ function AgendaCliente() {
           >
             Voltar
           </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (mostrandoRevisao) {
+    const dataFormatada = agendamento.data.split("-").reverse().join("/");
+    const servicoInfo = servicos.find((s) => s.nome === agendamento.servico);
+
+    return (
+      <div className="revisao-wrapper">
+        <div className="card-revisao">
+          <h2>Confirme seu Agendamento</h2>
+          <div className="revisao-detalhes">
+            <div className="detalhe-item">
+              <span className="detalhe-label">Serviço:</span>
+              <span className="detalhe-valor">
+                {agendamento.servico}
+                {servicoInfo && ` - R$ ${servicoInfo.preco}`}
+              </span>
+            </div>
+            <div className="detalhe-item">
+              <span className="detalhe-label">Data:</span>
+              <span className="detalhe-valor">{dataFormatada}</span>
+            </div>
+            <div className="detalhe-item">
+              <span className="detalhe-label">Horário:</span>
+              <span className="detalhe-valor">{agendamento.hora}</span>
+            </div>
+          </div>
+          <div className="botoes-revisao">
+            <button
+              onClick={() => setMostrandoRevisao(false)}
+              className="btn-voltar-revisao"
+            >
+              Voltar
+            </button>
+            <button
+              onClick={confirmarAgendamentoFinal}
+              className="btn-confirmar-revisao"
+            >
+              Confirmar Agendamento
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -270,6 +359,13 @@ function AgendaCliente() {
               </button>
             </div>
 
+            <div className="calendario-cliente-header">
+              {diasSemana.map((nome) => (
+                <span key={nome} className="dia-semana-header">
+                  {nome}
+                </span>
+              ))}
+            </div>
             <div className="calendario-cliente-grid">
               {diasVisiveis.map((dia) => (
                 <div
@@ -334,24 +430,77 @@ function AgendaCliente() {
 
           <div className="meus-agendamentos-fixo">
             <h3>🗓️ Meus Horários</h3>
-            {meusAgendamentos.map((m) => (
-              <div key={m.id} className="card-meu-horario">
-                <div className="info">
-                  <strong>{m.servico}</strong>
-                  <span>
-                    {m.data.split("-").reverse().join("/")} às {m.hora}
-                  </span>
+            {meusAgendamentos.map((m) => {
+              const { status, podeCancel, mensagemStatus, diffHoras } =
+                obterStatusAgendamento(m.data, m.hora, m);
+              const dataFormatada = m.data.split("-").reverse().join("/");
+
+              return (
+                <div key={m.id} className={`card-meu-horario status-${status}`}>
+                  <div className="barra-status">
+                    <span className={`badge-status badge-${status}`}>
+                      {status === "agendado" && "📅"}
+                      {status === "proximamente" && "🔔"}
+                      {status === "finalizado" && "✓"}
+                      {status === "adiantado" && "⚡"}
+                    </span>
+                  </div>
+
+                  <div className="info">
+                    <strong>{m.servico}</strong>
+                    <span>
+                      {dataFormatada} às {m.hora}
+                    </span>
+                  </div>
+
+                  <div className="status-info">
+                    <span className={`mensagem-status msg-${status}`}>
+                      {mensagemStatus}
+                    </span>
+                    {m.horaAdiantada && (
+                      <span className="info-adiantada">
+                        Manicure: você pode vir às {m.horaAdiantada}
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => cancelarHorario(m.id, m.data, m.hora)}
+                    className={`btn-cancelar ${!podeCancel ? "desativado" : ""}`}
+                    disabled={!podeCancel}
+                    title={
+                      !podeCancel
+                        ? "Não é possível cancelar com menos de 2h de antecedência"
+                        : "Cancelar agendamento"
+                    }
+                  >
+                    Cancelar
+                  </button>
                 </div>
-                <button
-                  onClick={() => cancelarHorario(m.id, m.data, m.hora)}
-                  className="btn-cancelar"
-                >
-                  Cancelar
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
+      </div>
+      <div className="social-footer">
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-sociais btn-whatsapp"
+          aria-label="Contato WhatsApp"
+        >
+          <img src={WhatsAppLogo} alt="WhatsApp" />
+        </a>
+        <a
+          href={instagramLink}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-sociais btn-instagram"
+          aria-label="Instagram"
+        >
+          <img src={InstagramLogo} alt="Instagram" />
+        </a>
       </div>
     </div>
   );

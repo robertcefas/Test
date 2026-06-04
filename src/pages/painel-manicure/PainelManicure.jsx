@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './PainelManicure.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./PainelManicure.css";
 
 function PainelManicure() {
   const navigate = useNavigate();
@@ -9,11 +9,13 @@ function PainelManicure() {
   const [editandoServico, setEditandoServico] = useState(null);
   const [clienteInfo, setClienteInfo] = useState(null);
   const [mostrarHoras, setMostrarHoras] = useState(false);
+  const [agendamentoAdiantado, setAgendamentoAdiantado] = useState(null);
+  const [novaHoraAdiantada, setNovaHoraAdiantada] = useState("");
 
   const [configAgenda, setConfigAgenda] = useState({
-    datasBloqueadas: [], 
+    datasBloqueadas: [],
     horaInicio: "09:00",
-    horaFim: "18:00"
+    horaFim: "18:00",
   });
 
   const dataHoje = new Date();
@@ -26,6 +28,7 @@ function PainelManicure() {
   const [mesAtivo, setMesAtivo] = useState(mesAtual);
   const [anoAtivo, setAnoAtivo] = useState(anoAtual);
   const [diasDoMes, setDiasDoMes] = useState([]);
+  const diasSemana = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
 
   const ajustarMes = (mes, ano, delta) => {
     let novoMes = mes + delta;
@@ -45,8 +48,10 @@ function PainelManicure() {
 
   const alterarMes = (delta) => {
     const { novoMes, novoAno } = ajustarMes(mesAtivo, anoAtivo, delta);
-    const isAntesAtual = novoAno < anoAtual || (novoAno === anoAtual && novoMes < mesAtual);
-    const isDepoisMax = novoAno > anoMax || (novoAno === anoMax && novoMes > mesMax);
+    const isAntesAtual =
+      novoAno < anoAtual || (novoAno === anoAtual && novoMes < mesAtual);
+    const isDepoisMax =
+      novoAno > anoMax || (novoAno === anoMax && novoMes > mesMax);
     if (!isAntesAtual && !isDepoisMax) {
       setMesAtivo(novoMes);
       setAnoAtivo(novoAno);
@@ -55,13 +60,13 @@ function PainelManicure() {
 
   useEffect(() => {
     // Carrega tudo do LocalStorage ao iniciar
-    const dadosAg = JSON.parse(localStorage.getItem('agendamentos') || '[]');
+    const dadosAg = JSON.parse(localStorage.getItem("agendamentos") || "[]");
     setAgendamentos(dadosAg);
-    
-    const servicosSalvos = JSON.parse(localStorage.getItem('servicos') || '[]');
+
+    const servicosSalvos = JSON.parse(localStorage.getItem("servicos") || "[]");
     setServicos(servicosSalvos);
-    
-    const agendaSalva = JSON.parse(localStorage.getItem('configAgenda'));
+
+    const agendaSalva = JSON.parse(localStorage.getItem("configAgenda"));
     if (agendaSalva) setConfigAgenda(agendaSalva);
   }, []);
 
@@ -69,7 +74,7 @@ function PainelManicure() {
     const ultimoDia = new Date(anoAtivo, mesAtivo + 1, 0).getDate();
     const dias = [];
     for (let i = 1; i <= ultimoDia; i++) {
-      const dataFormatada = `${anoAtivo}-${String(mesAtivo + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+      const dataFormatada = `${anoAtivo}-${String(mesAtivo + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
       dias.push({ data: dataFormatada, numero: i });
     }
     setDiasDoMes(dias);
@@ -80,39 +85,73 @@ function PainelManicure() {
     e.preventDefault();
     let novos;
     if (editandoServico.id) {
-      novos = servicos.map(s => s.id === editandoServico.id ? editandoServico : s);
+      novos = servicos.map((s) =>
+        s.id === editandoServico.id ? editandoServico : s,
+      );
     } else {
       novos = [...servicos, { ...editandoServico, id: Date.now() }];
     }
     setServicos(novos);
-    localStorage.setItem('servicos', JSON.stringify(novos));
+    localStorage.setItem("servicos", JSON.stringify(novos));
     setEditandoServico(null);
   };
 
   const excluirServico = (id) => {
-    const novos = servicos.filter(s => s.id !== id);
+    const novos = servicos.filter((s) => s.id !== id);
     setServicos(novos);
-    localStorage.setItem('servicos', JSON.stringify(novos));
+    localStorage.setItem("servicos", JSON.stringify(novos));
   };
 
   // --- OUTRAS FUNÇÕES ---
   const verDadosCliente = (email) => {
-    const todos = JSON.parse(localStorage.getItem('usuarios') || '[]');
-    const achei = todos.find(u => u.email === email);
+    const todos = JSON.parse(localStorage.getItem("usuarios") || "[]");
+    const achei = todos.find((u) => u.email === email);
     if (achei) setClienteInfo(achei);
   };
 
-  const concluirAgendamento = (id) => {
-    const novos = agendamentos.filter(ag => ag.id !== id);
+  const abrirModalAdiantamento = (agendamento) => {
+    setAgendamentoAdiantado(agendamento);
+    setNovaHoraAdiantada(agendamento.horaAdiantada || "");
+  };
+
+  const salvarHoraAdiantada = () => {
+    if (!novaHoraAdiantada) {
+      alert("Por favor, defina um horário.");
+      return;
+    }
+
+    const novos = agendamentos.map((ag) =>
+      ag.id === agendamentoAdiantado.id
+        ? { ...ag, horaAdiantada: novaHoraAdiantada }
+        : ag,
+    );
     setAgendamentos(novos);
-    localStorage.setItem('agendamentos', JSON.stringify(novos));
+    localStorage.setItem("agendamentos", JSON.stringify(novos));
+    setAgendamentoAdiantado(null);
+    setNovaHoraAdiantada("");
+  };
+
+  const removerHoraAdiantada = () => {
+    const novos = agendamentos.map((ag) =>
+      ag.id === agendamentoAdiantado.id ? { ...ag, horaAdiantada: null } : ag,
+    );
+    setAgendamentos(novos);
+    localStorage.setItem("agendamentos", JSON.stringify(novos));
+    setAgendamentoAdiantado(null);
+    setNovaHoraAdiantada("");
+  };
+
+  const concluirAgendamento = (id) => {
+    const novos = agendamentos.filter((ag) => ag.id !== id);
+    setAgendamentos(novos);
+    localStorage.setItem("agendamentos", JSON.stringify(novos));
   };
 
   const alternarData = (data) => {
-    const hojeComp = new Date().setHours(0,0,0,0);
+    const hojeComp = new Date().setHours(0, 0, 0, 0);
     if (new Date(data + "T00:00:00") < hojeComp) return;
-    let novas = configAgenda.datasBloqueadas.includes(data) 
-      ? configAgenda.datasBloqueadas.filter(d => d !== data) 
+    let novas = configAgenda.datasBloqueadas.includes(data)
+      ? configAgenda.datasBloqueadas.filter((d) => d !== data)
       : [...configAgenda.datasBloqueadas, data];
     setConfigAgenda({ ...configAgenda, datasBloqueadas: novas });
   };
@@ -121,8 +160,12 @@ function PainelManicure() {
     <div className="painel-wrapper">
       <nav className="painel-nav">
         <div className="nav-content">
-          <span>Nails for You <strong>Admin</strong></span>
-          <button onClick={() => navigate('/')} className="btn-logout">Sair</button>
+          <span>
+            Nails for You <strong>Admin</strong>
+          </span>
+          <button onClick={() => navigate("/")} className="btn-logout">
+            Sair
+          </button>
         </div>
       </nav>
 
@@ -138,16 +181,44 @@ function PainelManicure() {
                     <th>CLIENTE</th>
                     <th>SERVIÇO</th>
                     <th>DATA/HORA</th>
+                    <th>STATUS</th>
                     <th>AÇÃO</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {agendamentos.map(ag => (
+                  {agendamentos.map((ag) => (
                     <tr key={ag.id}>
-                      <td><button className="link-nome" onClick={() => verDadosCliente(ag.clienteEmail)}>{ag.clienteNome}</button></td>
+                      <td>
+                        <button
+                          className="link-nome"
+                          onClick={() => verDadosCliente(ag.clienteEmail)}
+                        >
+                          {ag.clienteNome}
+                        </button>
+                      </td>
                       <td>{ag.servico}</td>
-                      <td>{ag.data} às {ag.hora}</td>
-                      <td><button className="btn-concluir" onClick={() => concluirAgendamento(ag.id)}>Concluir</button></td>
+                      <td>
+                        {ag.data} às {ag.hora}
+                      </td>
+                      <td>
+                        {ag.horaAdiantada
+                          ? `⚡ ${ag.horaAdiantada}`
+                          : "📅 Normal"}
+                      </td>
+                      <td>
+                        <button
+                          className="btn-adiantar"
+                          onClick={() => abrirModalAdiantamento(ag)}
+                        >
+                          Adiantar
+                        </button>
+                        <button
+                          className="btn-concluir"
+                          onClick={() => concluirAgendamento(ag.id)}
+                        >
+                          Concluir
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -159,27 +230,71 @@ function PainelManicure() {
           <section className="card-admin mt-20">
             <div className="header-servicos">
               <h2 className="titulo-secao">Serviços e Produtos</h2>
-              <button className="btn-add-servico" onClick={() => setEditandoServico({nome: '', preco: ''})}>+ Novo</button>
+              <button
+                className="btn-add-servico"
+                onClick={() => setEditandoServico({ nome: "", preco: "" })}
+              >
+                + Novo
+              </button>
             </div>
 
             {editandoServico && (
               <form className="form-servico" onSubmit={salvarServico}>
-                <input type="text" placeholder="Nome do serviço" value={editandoServico.nome} onChange={e => setEditandoServico({...editandoServico, nome: e.target.value})} required />
-                <input type="text" placeholder="Preço (ex: 35.00)" value={editandoServico.preco} onChange={e => setEditandoServico({...editandoServico, preco: e.target.value})} required />
+                <input
+                  type="text"
+                  placeholder="Nome do serviço"
+                  value={editandoServico.nome}
+                  onChange={(e) =>
+                    setEditandoServico({
+                      ...editandoServico,
+                      nome: e.target.value,
+                    })
+                  }
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Preço (ex: 35.00)"
+                  value={editandoServico.preco}
+                  onChange={(e) =>
+                    setEditandoServico({
+                      ...editandoServico,
+                      preco: e.target.value,
+                    })
+                  }
+                  required
+                />
                 <div className="form-btns">
-                   <button type="submit" className="btn-save-s">Gravar</button>
-                   <button type="button" className="btn-cancel-s" onClick={() => setEditandoServico(null)}>Cancelar</button>
+                  <button type="submit" className="btn-save-s">
+                    Gravar
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-cancel-s"
+                    onClick={() => setEditandoServico(null)}
+                  >
+                    Cancelar
+                  </button>
                 </div>
               </form>
             )}
 
             <ul className="lista-produtos">
-              {servicos.map(s => (
+              {servicos.map((s) => (
                 <li key={s.id}>
-                  <span>{s.nome} - <strong>R$ {s.preco}</strong></span>
+                  <span>
+                    {s.nome} - <strong>R$ {s.preco}</strong>
+                  </span>
                   <div className="acoes">
-                    <button onClick={() => setEditandoServico(s)}>Editar</button>
-                    <button onClick={() => excluirServico(s.id)} className="txt-red">Excluir</button>
+                    <button onClick={() => setEditandoServico(s)}>
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => excluirServico(s.id)}
+                      className="txt-red"
+                    >
+                      Excluir
+                    </button>
                   </div>
                 </li>
               ))}
@@ -191,38 +306,89 @@ function PainelManicure() {
           {/* CALENDÁRIO */}
           <section className="card-admin">
             <div className="agenda-nav">
-              <button onClick={() => alterarMes(-1)} disabled={!podeVoltar}>&lt;</button>
-              <h3>{new Date(anoAtivo, mesAtivo).toLocaleString('pt-BR', { month: 'long' })}</h3>
-              <button onClick={() => alterarMes(1)} disabled={!podeAvancar}>&gt;</button>
+              <button onClick={() => alterarMes(-1)} disabled={!podeVoltar}>
+                &lt;
+              </button>
+              <h3>
+                {new Date(anoAtivo, mesAtivo).toLocaleString("pt-BR", {
+                  month: "long",
+                })}
+              </h3>
+              <button onClick={() => alterarMes(1)} disabled={!podeAvancar}>
+                &gt;
+              </button>
             </div>
-            
+
+            <div className="calendario-header">
+              {diasSemana.map((nome) => (
+                <span key={nome} className="dia-semana-header">
+                  {nome}
+                </span>
+              ))}
+            </div>
             <div className="calendario-grid">
-              {diasDoMes.map(item => {
-                const isOff = configAgenda.datasBloqueadas.includes(item.data) || new Date(item.data + "T00:00:00") < new Date().setHours(0,0,0,0);
+              {diasDoMes.map((item) => {
+                const isOff =
+                  configAgenda.datasBloqueadas.includes(item.data) ||
+                  new Date(item.data + "T00:00:00") <
+                    new Date().setHours(0, 0, 0, 0);
                 return (
-                  <div key={item.data} className={`dia-box ${isOff ? 'off' : 'on'}`} onClick={() => alternarData(item.data)}>
+                  <div
+                    key={item.data}
+                    className={`dia-box ${isOff ? "off" : "on"}`}
+                    onClick={() => alternarData(item.data)}
+                  >
                     {item.numero}
                   </div>
                 );
               })}
             </div>
 
-            <button className="btn-collapse" onClick={() => setMostrarHoras(!mostrarHoras)}>
-              Configurar Horários {mostrarHoras ? '▲' : '▼'}
+            <button
+              className="btn-collapse"
+              onClick={() => setMostrarHoras(!mostrarHoras)}
+            >
+              Configurar Horários {mostrarHoras ? "▲" : "▼"}
             </button>
-            
+
             {mostrarHoras && (
               <div className="horas-config">
-                <input type="time" value={configAgenda.horaInicio} onChange={e => setConfigAgenda({...configAgenda, horaInicio: e.target.value})} />
+                <input
+                  type="time"
+                  value={configAgenda.horaInicio}
+                  onChange={(e) =>
+                    setConfigAgenda({
+                      ...configAgenda,
+                      horaInicio: e.target.value,
+                    })
+                  }
+                />
                 <span>às</span>
-                <input type="time" value={configAgenda.horaFim} onChange={e => setConfigAgenda({...configAgenda, horaFim: e.target.value})} />
+                <input
+                  type="time"
+                  value={configAgenda.horaFim}
+                  onChange={(e) =>
+                    setConfigAgenda({
+                      ...configAgenda,
+                      horaFim: e.target.value,
+                    })
+                  }
+                />
               </div>
             )}
-            
-            <button className="btn-principal" onClick={() => {
-              localStorage.setItem('configAgenda', JSON.stringify(configAgenda));
-              alert("Configurações salvas!");
-            }}>Salvar Disponibilidade</button>
+
+            <button
+              className="btn-principal"
+              onClick={() => {
+                localStorage.setItem(
+                  "configAgenda",
+                  JSON.stringify(configAgenda),
+                );
+                alert("Configurações salvas!");
+              }}
+            >
+              Salvar Disponibilidade
+            </button>
           </section>
         </aside>
       </div>
@@ -230,17 +396,81 @@ function PainelManicure() {
       {/* MODAL CLIENTE */}
       {clienteInfo && (
         <div className="modal-bg" onClick={() => setClienteInfo(null)}>
-          <div className="modal-perfil" onClick={e => e.stopPropagation()}>
+          <div className="modal-perfil" onClick={(e) => e.stopPropagation()}>
             <div className="perfil-topo">
               <div className="perfil-avatar">{clienteInfo.nome.charAt(0)}</div>
               <h3>Dados da Cliente</h3>
             </div>
             <div className="perfil-dados">
-              <p><strong>Nome:</strong> {clienteInfo.nome}</p>
-              <p><strong>E-mail:</strong> {clienteInfo.email}</p>
-              <p><strong>Telefone:</strong> {clienteInfo.telefone || "Não informado"}</p>
+              <p>
+                <strong>Nome:</strong> {clienteInfo.nome}
+              </p>
+              <p>
+                <strong>E-mail:</strong> {clienteInfo.email}
+              </p>
+              <p>
+                <strong>Telefone:</strong>{" "}
+                {clienteInfo.telefone || "Não informado"}
+              </p>
             </div>
-            <button className="btn-close" onClick={() => setClienteInfo(null)}>Fechar</button>
+            <button className="btn-close" onClick={() => setClienteInfo(null)}>
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL ADIANTAMENTO */}
+      {agendamentoAdiantado && (
+        <div className="modal-bg" onClick={() => setAgendamentoAdiantado(null)}>
+          <div
+            className="modal-adiantamento"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>⚡ Adiantar Horário</h3>
+            <div className="info-agendamento-modal">
+              <p>
+                <strong>Cliente:</strong> {agendamentoAdiantado.clienteNome}
+              </p>
+              <p>
+                <strong>Serviço:</strong> {agendamentoAdiantado.servico}
+              </p>
+              <p>
+                <strong>Horário Agendado:</strong> {agendamentoAdiantado.data}{" "}
+                às {agendamentoAdiantado.hora}
+              </p>
+            </div>
+            <label className="label-input">
+              Nova hora (cliente pode vir):
+              <input
+                type="time"
+                value={novaHoraAdiantada}
+                onChange={(e) => setNovaHoraAdiantada(e.target.value)}
+                className="input-hora-adiantada"
+              />
+            </label>
+            <div className="botoes-adiantamento">
+              <button
+                className="btn-cancelar-modal"
+                onClick={() => setAgendamentoAdiantado(null)}
+              >
+                Cancelar
+              </button>
+              {agendamentoAdiantado.horaAdiantada && (
+                <button
+                  className="btn-remover-adiantamento"
+                  onClick={removerHoraAdiantada}
+                >
+                  Remover Adiantamento
+                </button>
+              )}
+              <button
+                className="btn-salvar-adiantamento"
+                onClick={salvarHoraAdiantada}
+              >
+                Salvar
+              </button>
+            </div>
           </div>
         </div>
       )}

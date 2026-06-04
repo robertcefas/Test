@@ -171,6 +171,24 @@ td {
   opacity: 0.8;
 }
 
+.btn-adiantar {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.8rem;
+  min-height: 44px;
+  transition: 0.2s;
+  margin-right: 6px;
+}
+
+.btn-adiantar:active {
+  opacity: 0.8;
+}
+
 /* Gestão de Serviços/Produtos - MOBILE FIRST */
 .mt-20 {
   margin-top: 16px;
@@ -334,6 +352,21 @@ td {
 
 .agenda-nav button:active {
   background: #dfe4ea;
+}
+
+.calendario-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.dia-semana-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
 }
 
 .calendario-grid {
@@ -505,6 +538,128 @@ td {
 }
 
 .btn-close:active {
+  opacity: 0.8;
+}
+
+/* Modal Adiantamento */
+.modal-adiantamento {
+  background: var(--white);
+  width: 100%;
+  max-width: 380px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  margin: auto;
+}
+
+.modal-adiantamento h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  color: #2980b9;
+  font-size: 1.1rem;
+}
+
+.info-agendamento-modal {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border-left: 4px solid #3498db;
+}
+
+.info-agendamento-modal p {
+  margin: 8px 0;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.info-agendamento-modal strong {
+  color: #2980b9;
+}
+
+.label-input {
+  display: block;
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.input-hora-adiantada {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: 2px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.input-hora-adiantada:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+.botoes-adiantamento {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-cancelar-modal {
+  flex: 1;
+  padding: 12px;
+  background: #f1f2f6;
+  color: var(--text-main);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  min-height: 44px;
+  transition: 0.2s;
+}
+
+.btn-cancelar-modal:active {
+  opacity: 0.7;
+}
+
+.btn-remover-adiantamento {
+  flex: 1;
+  padding: 12px;
+  background: #fce9e9;
+  color: var(--red);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  min-height: 44px;
+  transition: 0.2s;
+}
+
+.btn-remover-adiantamento:active {
+  opacity: 0.7;
+}
+
+.btn-salvar-adiantamento {
+  flex: 1;
+  padding: 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  min-height: 44px;
+  transition: 0.2s;
+}
+
+.btn-salvar-adiantamento:active {
   opacity: 0.8;
 }
 
