@@ -1,45 +1,48 @@
-/* 1. Container Principal (Igual ao Cadastro) */
+/* 1. Container Principal */
 .login-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #71b7e6, #9b59b6);
-  padding: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(142, 68, 173, 0.16),
+    rgba(243, 238, 255, 0.95)
+  );
+  padding: 24px;
 }
 
 /* 2. Cartão do Formulário */
 .login-container {
-  background: #ffffff;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  background: var(--surface);
+  padding: 34px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
   width: 100%;
-  max-width: 400px; /* Login é mais estreito que o cadastro */
-  animation: slideUp 0.6s ease-out;
+  max-width: 420px;
+  animation: slideUp 0.5s ease-out;
   text-align: center;
 }
 
 .login-container h1 {
   font-size: 2rem;
-  margin-bottom: 30px;
-  color: #333;
+  margin-bottom: 28px;
+  color: var(--text);
   font-weight: 700;
   position: relative;
 }
 
-/* Linha decorativa abaixo do título */
 .login-container h1::after {
   content: "";
   position: absolute;
-  height: 3px;
-  width: 40px;
-  background: #9b59b6;
-  bottom: -8px;
+  height: 4px;
+  width: 56px;
+  background: var(--brand);
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  border-radius: 5px;
+  border-radius: 999px;
 }
 
 /* 3. Estilo dos Inputs */
@@ -50,73 +53,72 @@
 
 .login-input-group label {
   display: block;
-  font-size: 14px;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: #555;
-  margin-bottom: 5px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
 }
 
 .login-input-group input {
   width: 100%;
-  padding: 12px 15px;
-  border: 2px solid #eee;
-  border-radius: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   outline: none;
-  font-size: 15px;
-  background: #f9f9f9;
+  font-size: 1rem;
+  background: #fff;
   transition: all 0.3s ease;
 }
 
 .login-input-group input:focus {
-  border-color: #9b59b6;
-  background: #fff;
-  box-shadow: 0 0 8px rgba(155, 89, 182, 0.15);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
 }
 
 /* 4. Botão de Entrar */
 .btn-login {
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(to right, #9b59b6, #8e44ad);
+  padding: 16px;
+  background: linear-gradient(135deg, var(--brand), #9b59b6);
   border: none;
-  border-radius: 10px;
+  border-radius: 16px;
   color: white;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 10px;
-  box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+  margin-top: 14px;
+  box-shadow: 0 14px 30px rgba(142, 68, 173, 0.2);
 }
 
 .btn-login:hover {
   transform: translateY(-2px);
-  filter: brightness(1.1);
+  filter: brightness(1.05);
 }
 
 /* 5. Link de Cadastro */
 .signup-link {
-  margin-top: 25px;
-  font-size: 15px;
-  color: #666;
+  margin-top: 24px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
 }
 
 .signup-link a {
-  text-decoration: none;
-  color: #9b59b6;
+  color: var(--brand);
   font-weight: 700;
-  transition: 0.3s;
+  transition: color 0.25s ease;
 }
 
 .signup-link a:hover {
-  color: #71b7e6;
-  text-decoration: underline;
+  color: var(--brand-dark);
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;

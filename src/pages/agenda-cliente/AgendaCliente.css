@@ -1,16 +1,22 @@
 /* =========================================
-   VARIÁVEIS DE COR (Fácil de mudar depois)
+   VARIÁVEIS DE COR
 ========================================= */
 :root {
-  --cor-primaria: #9b59b6; /* Roxo/Lilás da sua marca */
-  --cor-primaria-hover: #8e44ad;
-  --cor-texto: #1c1e21;
-  --cor-fundo: #f0f2f5;
-  --cor-erro: #fa3e3e;
-  --cor-desativado: #cbd5e1;
+  --cor-primaria: #8e44ad;
+  --cor-primaria-hover: #71368f;
+  --cor-texto: #1f2330;
+  --cor-fundo: #f3f4f8;
+  --cor-erro: #e74c3c;
+  --cor-desativado: #e6e8f2;
+  --surface: #ffffff;
+  --surface-soft: #fbf7ff;
+  --shadow: 0 18px 45px rgba(142, 68, 173, 0.12);
+  --radius: 20px;
 }
 
-/* Estrutura Principal */
+/* =========================================
+   ESTRUTURA PRINCIPAL & NAV
+========================================= */
 .cliente-wrapper {
   min-height: 100vh;
   background: var(--cor-fundo);
@@ -19,7 +25,7 @@
 
 .cliente-nav {
   background: #ffffff;
-  padding: 1.2rem 5%;
+  padding: 0.8rem 5%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
@@ -27,7 +33,7 @@
 }
 
 .nav-content {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -37,19 +43,24 @@
 .btn-sair {
   background: #f1f2f6;
   border: none;
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--cor-texto);
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .btn-sair:hover {
   background: #e2e8f0;
 }
 
-/* Container do Card */
+/* =========================================
+   CONTAINER DO CARD PRINCIPAL
+========================================= */
 .cliente-container {
-  padding: 20px 5%;
+  padding: 24px 4%;
   display: flex;
   justify-content: center;
 }
@@ -57,10 +68,10 @@
 .card-agenda-cliente {
   background: #ffffff;
   width: 100%;
-  max-width: 450px;
+  max-width: 820px;
   padding: 28px;
-  border-radius: 22px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
 }
 
 .card-agenda-cliente h2 {
@@ -82,11 +93,14 @@
   transition: border-color 0.3s;
   min-height: 48px;
 }
+
 .select-servico:focus {
   border-color: var(--cor-primaria);
 }
 
-/* Calendário */
+/* =========================================
+   CALENDÁRIO
+========================================= */
 .seletor-mes-cliente {
   display: flex;
   justify-content: space-between;
@@ -109,9 +123,11 @@
   cursor: pointer;
   transition: 0.2s;
 }
+
 .seletor-mes-cliente button:hover {
   background: #ddd;
 }
+
 .seletor-mes-cliente button:disabled {
   opacity: 0.35;
   cursor: not-allowed;
@@ -135,13 +151,12 @@
 
 .calendario-cliente-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
   margin-bottom: 24px;
 }
 
 .dia-bolinha {
-  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,8 +165,9 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 52px;
-  min-width: 52px;
+  min-height: 48px;
+  min-width: 38px;
+  aspect-ratio: 1 / 1;
 }
 
 .dia-blank {
@@ -165,9 +181,11 @@
   background: var(--cor-fundo);
   color: var(--cor-texto);
 }
+
 .dia-bolinha.on:hover {
   background: #e2e8f0;
 }
+
 .dia-bolinha.off {
   background: #ffebee;
   color: var(--cor-erro);
@@ -175,7 +193,6 @@
   opacity: 0.4;
 }
 
-/* NOVA COR: Dia Selecionado */
 .dia-bolinha.selected {
   background: var(--cor-primaria);
   color: white;
@@ -183,7 +200,9 @@
   box-shadow: 0 4px 8px rgba(155, 89, 182, 0.3);
 }
 
-/* Horários e Animação */
+/* =========================================
+   EXPANDER DE HORÁRIOS & SETA DINÂMICA
+========================================= */
 .expander-horas-cliente {
   border: 1px solid #ebedf0;
   border-radius: 12px;
@@ -191,6 +210,7 @@
   overflow: hidden;
 }
 
+/* Botão base: Fechado (Layout padrão) */
 .btn-toggle-horas-cliente {
   width: 100%;
   padding: 14px;
@@ -201,23 +221,42 @@
   cursor: pointer;
   font-size: 1rem;
   min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.25s, color 0.25s;
 }
 
-/* Animação de Fade-in para os horários */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Criando o triângulo da setinha apontando para baixo por padrão */
+.btn-toggle-horas-cliente::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--cor-primaria);
+  transition: transform 0.25s, border-top-color 0.25s;
 }
 
+/* Quando os horários estiverem visíveis: Muda o fundo do botão e inverte a seta */
+.btn-toggle-horas-cliente:has(+ .grid-horas-cliente), 
+.btn-toggle-horas-cliente:has(~ .grid-horas-cliente) {
+  background: var(--cor-primaria);
+  color: #ffffff;
+}
+
+.btn-toggle-horas-cliente:has(+ .grid-horas-cliente)::after,
+.btn-toggle-horas-cliente:has(~ .grid-horas-cliente)::after {
+  border-top-color: #ffffff;
+  transform: rotate(180deg);
+}
+
+/* Listagem interna dos Horários */
 .grid-horas-cliente {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 12px;
   padding: 18px;
   background: #f7f8fa;
@@ -239,9 +278,17 @@
   align-items: center;
   justify-content: center;
 }
+
 .hora-item:hover {
   border-color: var(--cor-primaria);
 }
+
+.hora-item.active {
+  background: var(--cor-primaria);
+  color: white;
+  border-color: var(--cor-primaria);
+}
+
 .hora-item.off {
   background: #f1f1f1;
   color: #a1a8b3;
@@ -249,6 +296,20 @@
   cursor: not-allowed;
 }
 
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   BOTÃO CONFIRMAR AGENDAMENTO
+========================================= */
 .btn-confirmar-final {
   width: 100%;
   padding: 18px;
@@ -262,94 +323,22 @@
   transition: all 0.3s;
   min-height: 52px;
 }
+
 .btn-confirmar-final:hover:not(:disabled) {
   background: var(--cor-primaria-hover);
   transform: translateY(-2px);
 }
 
-.btn-whatsapp {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 16px;
-  background: linear-gradient(to right, #25d366, #128c7e);
-  border: none;
-  border-radius: 12px;
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 18px rgba(37, 211, 102, 0.25);
-}
-
-.btn-whatsapp:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.05);
-}
-
-.social-footer {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  padding: 20px 5%;
-  margin-top: 20px;
-}
-
-.btn-sociais {
-  width: 56px;
-  height: 56px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: white;
-  font-size: 1.4rem;
-  text-decoration: none;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-  transition:
-    transform 0.2s ease,
-    filter 0.2s ease;
-  overflow: hidden;
-}
-
-.btn-sociais img {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-}
-
-.btn-sociais:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.05);
-}
-
-.btn-instagram {
-  background: radial-gradient(
-    circle at 30% 30%,
-    #fdf497 0%,
-    #fdf497 5%,
-    #fd5949 45%,
-    #d6249f 60%,
-    #285aeb 90%
-  );
-}
-
-.btn-whatsapp {
-  background: linear-gradient(to right, #25d366, #128c7e);
-}
-
-/* ESTADO DESATIVADO DO BOTÃO */
 .btn-confirmar-final:disabled {
   background: var(--cor-desativado);
+  color: #a1a8b3;
   cursor: not-allowed;
   transform: none;
 }
 
-/* Meus Horários */
+/* =========================================
+   SEÇÃO: MEUS HORÁRIOS (Alinhamento Corrigido)
+========================================= */
 .meus-agendamentos-fixo {
   margin-top: 40px;
   border-top: 2px solid var(--cor-fundo);
@@ -368,7 +357,7 @@
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
-  padding: 18px;
+  padding: 18px 20px;
   border-radius: 14px;
   border: 1px solid #ebedf0;
   margin-bottom: 14px;
@@ -376,147 +365,113 @@
   position: relative;
   overflow: hidden;
   gap: 16px;
-  flex-wrap: wrap;
-  min-height: auto;
 }
 
-/* Estados do Card */
-.card-meu-horario.status-agendado {
-  border-left: 5px solid #9b59b6;
-}
-.card-meu-horario.status-proximamente {
-  border-left: 5px solid #f39c12;
-  background: #fffbf0;
-}
-.card-meu-horario.status-finalizado {
-  border-left: 5px solid #27ae60;
-  opacity: 0.75;
-}
-.card-meu-horario.status-adiantado {
-  border-left: 5px solid #3498db;
-  background: #f0f8ff;
-}
+/* Estilos de bordas laterais por Status */
+.card-meu-horario.status-agendado { border-left: 5px solid #9b59b6; }
+.card-meu-horario.status-proximamente { border-left: 5px solid #f39c12; background: #fffbf0; }
+.card-meu-horario.status-finalizado { border-left: 5px solid #27ae60; opacity: 0.75; }
+.card-meu-horario.status-adiantado { border-left: 5px solid #3498db; background: #f4f9fd; }
 
 .barra-status {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(to right, #9b59b6, #8e44ad);
-}
-
-.card-meu-horario.status-proximamente .barra-status {
-  background: linear-gradient(to right, #f39c12, #e67e22);
-}
-.card-meu-horario.status-finalizado .barra-status {
-  background: linear-gradient(to right, #27ae60, #229954);
-}
-.card-meu-horario.status-adiantado .barra-status {
-  background: linear-gradient(to right, #3498db, #2980b9);
+  display: flex;
+  align-items: center;
 }
 
 .badge-status {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   font-size: 1.1rem;
-  flex-shrink: 0;
   background: #f5f6fa;
 }
 
-.badge-status.badge-agendado {
-  background: #f0e5f5;
-}
-.badge-status.badge-proximamente {
-  background: #fef5e7;
-}
-.badge-status.badge-finalizado {
-  background: #eafaf1;
-}
-.badge-status.badge-adiantado {
-  background: #eaf2f8;
-}
+.badge-status.badge-agendado { background: #f0e5f5; }
+.badge-status.badge-proximamente { background: #fef5e7; }
+.badge-status.badge-finalizado { background: #eafaf1; }
+.badge-status.badge-adiantado { background: #eaf2f8; }
 
+/* Bloco de Informações do Serviço */
 .info {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-width: 120px;
+  flex: 1.5;
+  min-width: 0;
 }
+
 .info strong {
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--cor-texto);
 }
+
 .info span {
   font-size: 0.85rem;
   color: #65676b;
   margin-top: 4px;
 }
 
+/* Coluna Central com as tags de Alerta e Pagamento */
 .status-info {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 6px;
-  flex: 1;
-  min-width: 150px;
+  flex: 2;
 }
 
 .mensagem-status {
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   padding: 6px 12px;
   border-radius: 8px;
   text-align: center;
   display: inline-block;
+  width: 100%;
+  max-width: 180px;
+  box-sizing: border-box;
 }
 
-.msg-agendado {
-  color: #6c3483;
-  background: #f4ecf7;
-}
-.msg-proximamente {
-  color: #b8680b;
-  background: #fef5e7;
-}
-.msg-finalizado {
-  color: #0e6251;
-  background: #d5f4e6;
-}
-.msg-adiantado {
-  color: #154360;
-  background: #d6eaf8;
-  font-weight: 700;
-}
+.msg-agendado { color: #6c3483; background: #f4ecf7; }
+.msg-proximamente { color: #b8680b; background: #fef5e7; }
+.msg-finalizado { color: #0e6251; background: #d5f4e6; }
+.msg-adiantado { color: #154360; background: #d6eaf8; font-weight: 700; }
 
 .info-adiantada {
   font-size: 0.8rem;
   color: #2980b9;
   font-weight: 600;
-  padding: 4px 8px;
-  background: #ebf5fb;
+  padding: 6px 10px;
+  background: #ffffff;
   border-radius: 6px;
-  border-left: 3px solid #3498db;
+  border: 1px solid #d6eaf8;
+  width: 100%;
+  max-width: 180px;
+  box-sizing: border-box;
+  text-align: left;
 }
 
+/* Botão Cancelar Justo e Alinhado na extrema direita */
 .btn-cancelar {
   background: #fce9e9;
   color: var(--cor-erro);
   border: none;
-  padding: 10px 14px;
+  padding: 8px 16px;
   border-radius: 10px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s;
   flex-shrink: 0;
-  min-height: 44px;
-  min-width: 70px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .btn-cancelar:hover:not(:disabled) {
   background: var(--cor-erro);
   color: white;
@@ -530,41 +485,10 @@
   opacity: 0.6;
 }
 
-/* Tela de Sucesso */
-.sucesso-wrapper {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--cor-fundo);
-  padding: 20px;
-}
-
-.card-sucesso {
-  background: white;
-  padding: 40px;
-  border-radius: 24px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-}
-
-.btn-novo {
-  background: var(--cor-primaria);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-weight: 600;
-  margin-top: 20px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.btn-novo:hover {
-  background: var(--cor-primaria-hover);
-}
-
-/* Tela de Revisão */
+/* =========================================
+   TELA DE SUCESSO / REVISÃO / PIX
+========================================= */
+.sucesso-wrapper,
 .revisao-wrapper {
   min-height: 100vh;
   display: flex;
@@ -574,6 +498,7 @@
   padding: 20px;
 }
 
+.card-sucesso,
 .card-revisao {
   background: white;
   padding: 32px;
@@ -583,9 +508,14 @@
   width: 100%;
 }
 
+.card-sucesso {
+  text-align: center;
+  max-width: 400px;
+}
+
 .card-revisao h2 {
   font-size: 1.6rem;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   color: var(--cor-texto);
   text-align: center;
   font-weight: 700;
@@ -594,8 +524,8 @@
 .revisao-detalhes {
   background: #f7f8fa;
   border-radius: 18px;
-  padding: 28px;
-  margin-bottom: 28px;
+  padding: 24px;
+  margin-bottom: 24px;
   border: 2px solid #ebedf0;
 }
 
@@ -603,7 +533,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
+  padding: 14px 0;
   border-bottom: 1px solid #e2e8f0;
   gap: 8px;
 }
@@ -616,13 +546,12 @@
 .detalhe-label {
   font-weight: 700;
   color: #65676b;
-  font-size: 1rem;
 }
 
 .detalhe-valor {
   font-weight: 600;
   color: var(--cor-primaria);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   text-align: right;
   word-break: break-word;
 }
@@ -631,29 +560,44 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
 }
 
 .btn-copy-pix {
   background: #fff;
   border: 1.5px solid var(--cor-primaria);
   color: var(--cor-primaria);
-  padding: 8px 12px;
-  border-radius: 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
   font-weight: 700;
   cursor: pointer;
-  font-size: 0.9rem;
-  min-height: 40px;
+  font-size: 0.85rem;
   transition: 0.2s;
-  white-space: nowrap;
 }
 
 .btn-copy-pix:hover {
   background: var(--cor-fundo);
 }
 
-.btn-copy-pix:active {
-  transform: translateY(1px);
+.btn-novo,
+.btn-voltar-revisao,
+.btn-confirmar-revisao {
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 52px;
+}
+
+.btn-novo {
+  background: var(--cor-primaria);
+  color: white;
+  border: none;
+}
+
+.btn-novo:hover {
+  background: var(--cor-primaria-hover);
 }
 
 .botoes-revisao {
@@ -663,35 +607,20 @@
 
 .btn-voltar-revisao {
   flex: 1;
-  padding: 16px;
   background: #f1f2f6;
   color: var(--cor-texto);
   border: 2px solid #ebedf0;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 1.05rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  min-height: 52px;
 }
 
 .btn-voltar-revisao:hover {
   background: #e2e8f0;
-  border-color: #cbd5e1;
 }
 
 .btn-confirmar-revisao {
   flex: 1;
-  padding: 16px;
   background: var(--cor-primaria);
   color: white;
   border: none;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 1.05rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  min-height: 52px;
 }
 
 .btn-confirmar-revisao:hover {
@@ -700,3 +629,64 @@
   box-shadow: 0 6px 16px rgba(155, 89, 182, 0.35);
 }
 
+/* =========================================
+   RODAPÉ / REDES SOCIAIS
+========================================= */
+.social-footer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 5%;
+  margin-top: 10px;
+}
+
+.btn-sociais {
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.btn-sociais img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.btn-sociais:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.btn-instagram {
+  background: radial-gradient(circle at 30% 30%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+}
+
+.btn-whatsapp {
+  background: linear-gradient(to right, #25d366, #128c7e);
+}
+
+/* =========================================
+   MEDIA QUERIES (Responsividade)
+========================================= */
+@media (max-width: 980px) {
+  .cliente-container { padding: 20px 5%; }
+  .card-agenda-cliente { padding: 24px; }
+  .calendario-cliente-header, .calendario-cliente-grid { gap: 6px; }
+  .dia-semana-header { font-size: 0.72rem; }
+  .dia-bolinha { min-width: 36px; min-height: 42px; font-size: 0.82rem; }
+  .grid-horas-cliente { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .cliente-nav { padding: 1rem 4%; }
+  .nav-content { width: 100%; justify-content: space-between; }
+  .card-meu-horario { flex-direction: column; align-items: stretch; text-align: center; }
+  .status-info { align-items: center; }
+  .mensagem-status, .info-adiantada { max-width: 100%; text-align: center; }
+  .seletor-mes-cliente { gap: 10px; }
+}

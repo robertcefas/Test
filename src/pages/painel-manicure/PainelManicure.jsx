@@ -59,7 +59,6 @@ function PainelManicure() {
   };
 
   useEffect(() => {
-    // Carrega tudo do LocalStorage ao iniciar
     const dadosAg = JSON.parse(localStorage.getItem("agendamentos") || "[]");
     setAgendamentos(dadosAg);
 
@@ -86,7 +85,6 @@ function PainelManicure() {
     setDiasDoMes(dias);
   }, [mesAtivo, anoAtivo]);
 
-  // --- FUNÇÕES DE SERVIÇOS (RESTAURADAS) ---
   const salvarServico = (e) => {
     e.preventDefault();
     let novos;
@@ -108,7 +106,6 @@ function PainelManicure() {
     localStorage.setItem("servicos", JSON.stringify(novos));
   };
 
-  // --- OUTRAS FUNÇÕES ---
   const verDadosCliente = (email) => {
     const todos = JSON.parse(localStorage.getItem("usuarios") || "[]");
     const achei = todos.find((u) => u.email === email);
@@ -165,23 +162,21 @@ function PainelManicure() {
   return (
     <div className="painel-wrapper">
       <nav className="painel-nav">
-        <div className="nav-content">
-          <span>
-            Nails for You <strong>Admin</strong>
-          </span>
-          <button onClick={() => navigate("/")} className="btn-logout">
-            Sair
-          </button>
+        <div className="logo-admin">
+          Nails for You <strong>Admin</strong>
         </div>
+        <button onClick={() => navigate("/")} className="btn-logout">
+          Sair
+        </button>
       </nav>
 
       <div className="painel-grid">
         <div className="coluna-esquerda">
-          {/* TABELA DE AGENDAMENTOS */}
+          {/* TABELA DE AGENDAMENTOS MÓVEL ADAPTADA */}
           <section className="card-admin">
             <h2 className="titulo-secao">Próximos Agendamentos</h2>
-            <div className="tabela-container">
-              <table>
+            <div className="tabela-scroll-container">
+              <table className="tabela-agendamentos">
                 <thead>
                   <tr>
                     <th>CLIENTE</th>
@@ -192,43 +187,55 @@ function PainelManicure() {
                   </tr>
                 </thead>
                 <tbody>
-                  {agendamentos.map((ag) => (
-                    <tr key={ag.id}>
-                      <td>
-                        <button
-                          className="link-nome"
-                          onClick={() => verDadosCliente(ag.clienteEmail)}
-                        >
-                          {ag.clienteNome}
-                        </button>
-                      </td>
-                      <td>{ag.servico}</td>
-                      <td>
-                        {ag.data} às {ag.hora}
-                      </td>
-                      <td>
-                        {ag.pago50
-                          ? `💳 50% Pago`
-                          : ag.horaAdiantada
-                            ? `⚡ ${ag.horaAdiantada}`
-                            : "📅 Normal"}
-                      </td>
-                      <td>
-                        <button
-                          className="btn-adiantar"
-                          onClick={() => abrirModalAdiantamento(ag)}
-                        >
-                          Adiantar
-                        </button>
-                        <button
-                          className="btn-concluir"
-                          onClick={() => concluirAgendamento(ag.id)}
-                        >
-                          Concluir
-                        </button>
+                  {agendamentos.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="sem-dados">
+                        Nenhum agendamento pendente.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    agendamentos.map((ag) => (
+                      <tr key={ag.id}>
+                        <td>
+                          <button
+                            className="link-nome"
+                            onClick={() => verDadosCliente(ag.clienteEmail)}
+                          >
+                            {ag.clienteNome}
+                          </button>
+                        </td>
+                        <td className="col-servico">{ag.servico}</td>
+                        <td className="col-data">
+                          {ag.data} <br /> <span>às {ag.hora}</span>
+                        </td>
+                        <td>
+                          <span className="status-badge">
+                            {ag.pago50
+                              ? `💳 50% Pago`
+                              : ag.horaAdiantada
+                                ? `⚡ ${ag.horaAdiantada}`
+                                : "📅 Normal"}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="celula-botoes">
+                            <button
+                              className="btn-adiantar"
+                              onClick={() => abrirModalAdiantamento(ag)}
+                            >
+                              Adiantar
+                            </button>
+                            <button
+                              className="btn-concluir"
+                              onClick={() => concluirAgendamento(ag.id)}
+                            >
+                              Concluir
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -236,8 +243,8 @@ function PainelManicure() {
 
           {/* GESTÃO DE SERVIÇOS (PRODUTOS) */}
           <section className="card-admin mt-20">
-            <div className="header-servicos">
-              <h2 className="titulo-secao">Serviços e Produtos</h2>
+            <div className="titulo-secao">
+              <span>Serviços e Produtos</span>
               <button
                 className="btn-add-servico"
                 onClick={() => setEditandoServico({ nome: "", preco: "" })}
@@ -290,7 +297,7 @@ function PainelManicure() {
             <ul className="lista-produtos">
               {servicos.map((s) => (
                 <li key={s.id}>
-                  <span>
+                  <span className="produto-texto">
                     {s.nome} - <strong>R$ {s.preco}</strong>
                   </span>
                   <div className="acoes">
@@ -346,7 +353,7 @@ function PainelManicure() {
                   >
                     {item.numero}
                   </div>
-                ),
+                )
               )}
             </div>
 
@@ -384,9 +391,7 @@ function PainelManicure() {
             )}
 
             <div className="pix-config" style={{ marginTop: 12 }}>
-              <label
-                style={{ display: "block", fontWeight: 700, marginBottom: 6 }}
-              >
+              <label style={{ display: "block", fontWeight: 700, marginBottom: 6 }}>
                 Chave PIX
               </label>
               <input
@@ -398,15 +403,13 @@ function PainelManicure() {
                 }
                 style={{
                   width: "100%",
-                  padding: 8,
-                  borderRadius: 6,
+                  padding: 12,
+                  borderRadius: 8,
                   border: "1px solid #ddd",
                   marginBottom: 8,
                 }}
               />
-              <label
-                style={{ display: "block", fontWeight: 700, marginBottom: 6 }}
-              >
+              <label style={{ display: "block", fontWeight: 700, marginBottom: 6 }}>
                 QR Code PIX (opcional)
               </label>
               <input
@@ -440,7 +443,7 @@ function PainelManicure() {
               onClick={() => {
                 localStorage.setItem(
                   "configAgenda",
-                  JSON.stringify(configAgenda),
+                  JSON.stringify(configAgenda)
                 );
                 alert("Configurações salvas!");
               }}
@@ -460,16 +463,9 @@ function PainelManicure() {
               <h3>Dados da Cliente</h3>
             </div>
             <div className="perfil-dados">
-              <p>
-                <strong>Nome:</strong> {clienteInfo.nome}
-              </p>
-              <p>
-                <strong>E-mail:</strong> {clienteInfo.email}
-              </p>
-              <p>
-                <strong>Telefone:</strong>{" "}
-                {clienteInfo.telefone || "Não informado"}
-              </p>
+              <p><strong>Nome:</strong> {clienteInfo.nome}</p>
+              <p><strong>E-mail:</strong> {clienteInfo.email}</p>
+              <p><strong>Telefone:</strong> {clienteInfo.telefone || "Não informado"}</p>
             </div>
             <button className="btn-close" onClick={() => setClienteInfo(null)}>
               Fechar
@@ -481,22 +477,12 @@ function PainelManicure() {
       {/* MODAL ADIANTAMENTO */}
       {agendamentoAdiantado && (
         <div className="modal-bg" onClick={() => setAgendamentoAdiantado(null)}>
-          <div
-            className="modal-adiantamento"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-adiantamento" onClick={(e) => e.stopPropagation()}>
             <h3>⚡ Adiantar Horário</h3>
             <div className="info-agendamento-modal">
-              <p>
-                <strong>Cliente:</strong> {agendamentoAdiantado.clienteNome}
-              </p>
-              <p>
-                <strong>Serviço:</strong> {agendamentoAdiantado.servico}
-              </p>
-              <p>
-                <strong>Horário Agendado:</strong> {agendamentoAdiantado.data}{" "}
-                às {agendamentoAdiantado.hora}
-              </p>
+              <p><strong>Cliente:</strong> {agendamentoAdiantado.clienteNome}</p>
+              <p><strong>Serviço:</strong> {agendamentoAdiantado.servico}</p>
+              <p><strong>Horário Agendado:</strong> {agendamentoAdiantado.data} às {agendamentoAdiantado.hora}</p>
             </div>
             <label className="label-input">
               Nova hora (cliente pode vir):
@@ -508,24 +494,15 @@ function PainelManicure() {
               />
             </label>
             <div className="botoes-adiantamento">
-              <button
-                className="btn-cancelar-modal"
-                onClick={() => setAgendamentoAdiantado(null)}
-              >
+              <button className="btn-cancelar-modal" onClick={() => setAgendamentoAdiantado(null)}>
                 Cancelar
               </button>
               {agendamentoAdiantado.horaAdiantada && (
-                <button
-                  className="btn-remover-adiantamento"
-                  onClick={removerHoraAdiantada}
-                >
-                  Remover Adiantamento
+                <button className="btn-remover-adiantamento" onClick={removerHoraAdiantada}>
+                  Remover
                 </button>
               )}
-              <button
-                className="btn-salvar-adiantamento"
-                onClick={salvarHoraAdiantada}
-              >
+              <button className="btn-salvar-adiantamento" onClick={salvarHoraAdiantada}>
                 Salvar
               </button>
             </div>
