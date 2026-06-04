@@ -19,8 +19,8 @@
 
 .cliente-nav {
   background: #ffffff;
-  padding: 1rem 5%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.2rem 5%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -58,27 +58,29 @@
   background: #ffffff;
   width: 100%;
   max-width: 450px;
-  padding: 24px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 28px;
+  border-radius: 22px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .card-agenda-cliente h2 {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+  font-size: 1.4rem;
+  margin-bottom: 24px;
   color: var(--cor-texto);
+  font-weight: 700;
 }
 
 /* Formulário de Agendamento */
 .select-servico {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.3s;
+  min-height: 48px;
 }
 .select-servico:focus {
   border-color: var(--cor-primaria);
@@ -120,21 +122,22 @@
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .dia-semana-header {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.65);
   text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .calendario-cliente-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 24px;
 }
 
 .dia-bolinha {
@@ -143,10 +146,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 52px;
+  min-width: 52px;
 }
 
 .dia-blank {
@@ -188,12 +193,14 @@
 
 .btn-toggle-horas-cliente {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background: #fff;
   border: none;
   font-weight: 700;
   color: var(--cor-primaria);
   cursor: pointer;
+  font-size: 1rem;
+  min-height: 48px;
 }
 
 /* Animação de Fade-in para os horários */
@@ -211,21 +218,26 @@
 .grid-horas-cliente {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 15px;
+  gap: 12px;
+  padding: 18px;
   background: #f7f8fa;
-  animation: fadeInDown 0.3s ease forwards; /* Aplica a animação aqui */
+  animation: fadeInDown 0.3s ease forwards;
 }
 
 .hora-item {
-  padding: 10px;
+  padding: 12px;
   text-align: center;
   background: white;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   transition: all 0.2s;
+  min-height: 44px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .hora-item:hover {
   border-color: var(--cor-primaria);
@@ -239,15 +251,16 @@
 
 .btn-confirmar-final {
   width: 100%;
-  padding: 16px;
+  padding: 18px;
   background: var(--cor-primaria);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   transition: all 0.3s;
+  min-height: 52px;
 }
 .btn-confirmar-final:hover:not(:disabled) {
   background: var(--cor-primaria-hover);
@@ -338,15 +351,16 @@
 
 /* Meus Horários */
 .meus-agendamentos-fixo {
-  margin-top: 32px;
+  margin-top: 40px;
   border-top: 2px solid var(--cor-fundo);
-  padding-top: 20px;
+  padding-top: 28px;
 }
 
 .meus-agendamentos-fixo h3 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--cor-texto);
-  margin-bottom: 15px;
+  margin-bottom: 18px;
+  font-weight: 700;
 }
 
 .card-meu-horario {
@@ -354,15 +368,16 @@
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 18px;
+  border-radius: 14px;
   border: 1px solid #ebedf0;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  margin-bottom: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
-  gap: 15px;
+  gap: 16px;
   flex-wrap: wrap;
+  min-height: auto;
 }
 
 /* Estados do Card */
@@ -492,13 +507,15 @@
   background: #fce9e9;
   color: var(--cor-erro);
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.75rem;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s;
   flex-shrink: 0;
+  min-height: 44px;
+  min-width: 70px;
 }
 .btn-cancelar:hover:not(:disabled) {
   background: var(--cor-erro);
@@ -559,25 +576,26 @@
 
 .card-revisao {
   background: white;
-  padding: 40px;
-  border-radius: 24px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
+  padding: 32px;
+  border-radius: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 520px;
   width: 100%;
 }
 
 .card-revisao h2 {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
+  font-size: 1.6rem;
+  margin-bottom: 32px;
   color: var(--cor-texto);
   text-align: center;
+  font-weight: 700;
 }
 
 .revisao-detalhes {
   background: #f7f8fa;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 24px;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
   border: 2px solid #ebedf0;
 }
 
@@ -585,8 +603,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 0;
+  padding: 16px 0;
   border-bottom: 1px solid #e2e8f0;
+  gap: 8px;
 }
 
 .detalhe-item:last-child {
@@ -597,32 +616,63 @@
 .detalhe-label {
   font-weight: 700;
   color: #65676b;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .detalhe-valor {
   font-weight: 600;
   color: var(--cor-primaria);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   text-align: right;
+  word-break: break-word;
+}
+
+.pix-copy-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-copy-pix {
+  background: #fff;
+  border: 1.5px solid var(--cor-primaria);
+  color: var(--cor-primaria);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  min-height: 40px;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.btn-copy-pix:hover {
+  background: var(--cor-fundo);
+}
+
+.btn-copy-pix:active {
+  transform: translateY(1px);
 }
 
 .botoes-revisao {
   display: flex;
-  gap: 12px;
+  gap: 14px;
 }
 
 .btn-voltar-revisao {
   flex: 1;
-  padding: 14px;
+  padding: 16px;
   background: #f1f2f6;
   color: var(--cor-texto);
   border: 2px solid #ebedf0;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   transition: all 0.3s;
+  min-height: 52px;
 }
 
 .btn-voltar-revisao:hover {
@@ -632,19 +682,21 @@
 
 .btn-confirmar-revisao {
   flex: 1;
-  padding: 14px;
+  padding: 16px;
   background: var(--cor-primaria);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   transition: all 0.3s;
+  min-height: 52px;
 }
 
 .btn-confirmar-revisao:hover {
   background: var(--cor-primaria-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+  box-shadow: 0 6px 16px rgba(155, 89, 182, 0.35);
 }
+

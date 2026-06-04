@@ -33,7 +33,7 @@ body {
 /* Barra de Navegação Superior - MOBILE FIRST */
 .painel-nav {
   background: var(--white);
-  padding: 0.75rem 4%;
+  padding: 1rem 4%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,11 +41,11 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  gap: 10px;
+  gap: 12px;
 }
 
 .logo-admin {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-main);
   letter-spacing: -0.5px;
   font-weight: 700;
@@ -78,8 +78,8 @@ body {
 .painel-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
-  padding: 16px 4%;
+  gap: 20px;
+  padding: 20px 4%;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -87,20 +87,20 @@ body {
 /* Estilo Comum dos Cards - MOBILE FIRST */
 .card-admin {
   background: var(--white);
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .titulo-secao {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   color: #2d3436;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
@@ -118,8 +118,8 @@ table {
 
 th {
   text-align: left;
-  padding: 10px;
-  font-size: 0.7rem;
+  padding: 12px;
+  font-size: 0.75rem;
   color: var(--text-muted);
   text-transform: uppercase;
   border-bottom: 2px solid var(--border);
@@ -127,9 +127,9 @@ th {
 }
 
 td {
-  padding: 12px 10px;
+  padding: 14px 12px;
   border-bottom: 1px solid #f0f2f5;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   word-break: break-word;
 }
 
@@ -158,12 +158,12 @@ td {
   background: var(--red);
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.8rem;
-  min-height: 44px;
+  font-size: 0.85rem;
+  min-height: 48px;
   transition: 0.2s;
 }
 
@@ -175,14 +175,14 @@ td {
   background: #3498db;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.8rem;
-  min-height: 44px;
+  font-size: 0.85rem;
+  min-height: 48px;
   transition: 0.2s;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 .btn-adiantar:active {
@@ -198,16 +198,16 @@ td {
   background: var(--green);
   color: white;
   border: none;
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
   cursor: pointer;
   font-weight: 600;
-  min-height: 44px;
+  min-height: 48px;
   transition: 0.2s;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .btn-add-servico:active {
@@ -216,19 +216,20 @@ td {
 
 .form-servico {
   background: #f8f9fa;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
   border: 1px dashed #cbd5e0;
 }
 
 .form-servico input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1rem;
+  min-height: 44px;
   -webkit-appearance: none;
   appearance: none;
 }
@@ -249,12 +250,12 @@ td {
   color: white;
   flex: 1;
   border: none;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 14px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  min-height: 44px;
-  font-size: 0.9rem;
+  min-height: 48px;
+  font-size: 0.95rem;
   transition: 0.2s;
 }
 
@@ -266,12 +267,12 @@ td {
   background: #dfe4ea;
   flex: 1;
   border: none;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 14px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  min-height: 44px;
-  font-size: 0.9rem;
+  min-height: 48px;
+  font-size: 0.95rem;
   transition: 0.2s;
 }
 
@@ -334,15 +335,15 @@ td {
 .agenda-nav button {
   background: #f1f2f6;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
   transition: 0.2s;
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 48px;
+  min-width: 48px;
 }
 
 .agenda-nav button:disabled {
@@ -357,13 +358,13 @@ td {
 .calendario-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  margin-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
 .dia-semana-header {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.6);
   text-transform: uppercase;
@@ -372,8 +373,8 @@ td {
 .calendario-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .dia-box {
@@ -381,13 +382,24 @@ td {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   transition: 0.2s;
   border: 1px solid transparent;
-  min-height: 40px;
+  min-height: 52px;
+}
+
+/* Mobile-friendly tweaks */
+.agenda-nav button {
+  width: 40px;
+  height: 40px;
+}
+
+.pix-config input[type="file"] {
+  display: block;
+  margin-bottom: 8px;
 }
 
 .dia-blank {
@@ -412,16 +424,16 @@ td {
 /* Configuração de Horários - MOBILE FIRST */
 .btn-collapse {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--primary);
   font-weight: bold;
   cursor: pointer;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
-  min-height: 44px;
+  margin-bottom: 14px;
+  font-size: 1rem;
+  min-height: 48px;
   transition: 0.2s;
   text-align: left;
 }
@@ -434,21 +446,21 @@ td {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 12px;
+  gap: 10px;
+  padding: 14px;
   background: #f8f9fa;
-  border-radius: 6px;
-  margin-bottom: 12px;
+  border-radius: 8px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
-  min-height: 44px;
+  min-height: 48px;
 }
 
 .horas-config input {
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  min-height: 44px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  min-height: 48px;
   flex: 1;
   min-width: 100px;
 }
@@ -461,16 +473,16 @@ td {
 
 .btn-principal {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   background: #2d3436;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s;
-  font-size: 1rem;
-  min-height: 48px;
+  font-size: 1.05rem;
+  min-height: 52px;
 }
 
 .btn-principal:active {
@@ -496,9 +508,9 @@ td {
 .modal-perfil {
   background: var(--white);
   width: 100%;
-  max-width: 300px;
-  padding: 1.5rem;
-  border-radius: 16px;
+  max-width: 320px;
+  padding: 2rem;
+  border-radius: 18px;
   text-align: center;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   margin: auto;
@@ -531,15 +543,15 @@ td {
 
 .btn-close {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background: #2d3436;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.95rem;
-  min-height: 44px;
+  font-size: 1rem;
+  min-height: 48px;
   transition: 0.2s;
 }
 
@@ -551,9 +563,9 @@ td {
 .modal-adiantamento {
   background: var(--white);
   width: 100%;
-  max-width: 380px;
-  padding: 1.5rem;
-  border-radius: 16px;
+  max-width: 420px;
+  padding: 2rem;
+  border-radius: 18px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   margin: auto;
 }
@@ -593,14 +605,14 @@ td {
 
 .input-hora-adiantada {
   width: 100%;
-  padding: 10px;
-  margin-top: 8px;
+  padding: 12px;
+  margin-top: 10px;
   border: 2px solid #cbd5e0;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s;
-  min-height: 44px;
+  min-height: 48px;
   box-sizing: border-box;
 }
 
@@ -617,15 +629,15 @@ td {
 
 .btn-cancelar-modal {
   flex: 1;
-  padding: 12px;
+  padding: 14px;
   background: #f1f2f6;
   color: var(--text-main);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.9rem;
-  min-height: 44px;
+  font-size: 0.95rem;
+  min-height: 48px;
   transition: 0.2s;
 }
 
@@ -635,15 +647,15 @@ td {
 
 .btn-remover-adiantamento {
   flex: 1;
-  padding: 12px;
+  padding: 14px;
   background: #fce9e9;
   color: var(--red);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.9rem;
-  min-height: 44px;
+  font-size: 0.95rem;
+  min-height: 48px;
   transition: 0.2s;
 }
 
@@ -653,15 +665,15 @@ td {
 
 .btn-salvar-adiantamento {
   flex: 1;
-  padding: 12px;
+  padding: 14px;
   background: #3498db;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.9rem;
-  min-height: 44px;
+  font-size: 0.95rem;
+  min-height: 48px;
   transition: 0.2s;
 }
 
@@ -868,7 +880,7 @@ td {
 }
 
 /* LARGE DESKTOP (1440px e acima) */
-@media (min-width: 1440px) {
+@media (max-width: 1020px) {
   .painel-grid {
     gap: 28px;
     padding: 28px 3%;

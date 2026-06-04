@@ -207,9 +207,11 @@ function PainelManicure() {
                         {ag.data} às {ag.hora}
                       </td>
                       <td>
-                        {ag.horaAdiantada
-                          ? `⚡ ${ag.horaAdiantada}`
-                          : "📅 Normal"}
+                        {ag.pago50
+                          ? `💳 50% Pago`
+                          : ag.horaAdiantada
+                            ? `⚡ ${ag.horaAdiantada}`
+                            : "📅 Normal"}
                       </td>
                       <td>
                         <button
@@ -380,6 +382,58 @@ function PainelManicure() {
                 />
               </div>
             )}
+
+            <div className="pix-config" style={{ marginTop: 12 }}>
+              <label
+                style={{ display: "block", fontWeight: 700, marginBottom: 6 }}
+              >
+                Chave PIX
+              </label>
+              <input
+                type="text"
+                placeholder="CPF / CNPJ / E-mail / Celular"
+                value={configAgenda.pixChave || ""}
+                onChange={(e) =>
+                  setConfigAgenda({ ...configAgenda, pixChave: e.target.value })
+                }
+                style={{
+                  width: "100%",
+                  padding: 8,
+                  borderRadius: 6,
+                  border: "1px solid #ddd",
+                  marginBottom: 8,
+                }}
+              />
+              <label
+                style={{ display: "block", fontWeight: 700, marginBottom: 6 }}
+              >
+                QR Code PIX (opcional)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = () =>
+                    setConfigAgenda({
+                      ...configAgenda,
+                      pixQRCode: reader.result,
+                    });
+                  reader.readAsDataURL(file);
+                }}
+              />
+              {configAgenda.pixQRCode && (
+                <div style={{ marginTop: 8 }}>
+                  <img
+                    src={configAgenda.pixQRCode}
+                    alt="PIX QR"
+                    style={{ maxWidth: "100%", borderRadius: 8 }}
+                  />
+                </div>
+              )}
+            </div>
 
             <button
               className="btn-principal"

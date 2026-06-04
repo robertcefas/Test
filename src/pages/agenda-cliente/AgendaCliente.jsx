@@ -18,6 +18,9 @@ function AgendaCliente() {
   const [mostrarHoras, setMostrarHoras] = useState(false);
   const [mostrandoRevisao, setMostrandoRevisao] = useState(false);
   const [agendadoComSucesso, setAgendadoComSucesso] = useState(false);
+  const [mostrandoPagamento, setMostrandoPagamento] = useState(false);
+  const [agendamentoPendente, setAgendamentoPendente] = useState(null);
+  const [copiadoPix, setCopiadoPix] = useState(false);
   const whatsappLink = "https://wa.me/5571996740584"; // coloque o WhatsApp aqui
   const instagramLink =
     "https://www.instagram.com/evelinnaiils__?igsh=NXlnYmIyaTlwOHMx"; // coloque o Instagram aqui
@@ -189,13 +192,62 @@ function AgendaCliente() {
       clienteNome: usuarioLogado.nome,
       clienteEmail: usuarioLogado.email,
       ...agendamento,
+      pago50: false,
     };
 
     const banco = JSON.parse(localStorage.getItem("agendamentos") || "[]");
     localStorage.setItem("agendamentos", JSON.stringify([...banco, novo]));
 
-    setAgendadoComSucesso(true);
+    // abrir fluxo de pagamento (50% via PIX)
+    setAgendamentoPendente(novo);
+    setMostrandoPagamento(true);
     setMostrandoRevisao(false);
+    carregarDados();
+  };
+
+  const copyPix = (pix) => {
+    if (!pix) return;
+    try {
+      navigator.clipboard.writeText(pix);
+      setCopiadoPix(true);
+      setTimeout(() => setCopiadoPix(false), 2000);
+    } catch (e) {
+      // fallback
+      try {
+        const el = document.createElement("textarea");
+        el.value = pix;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        setCopiadoPix(true);
+        setTimeout(() => setCopiadoPix(false), 2000);
+      } catch (err) {
+        alert("Não foi possível copiar a chave PIX.");
+      }
+    }
+  };
+
+  const pagamentoEfetuado = () => {
+    if (!agendamentoPendente) return;
+    const todos = JSON.parse(localStorage.getItem("agendamentos") || "[]");
+    const atualizados = todos.map((a) =>
+      a.id === agendamentoPendente.id ? { ...a, pago50: true } : a,
+    );
+    localStorage.setItem("agendamentos", JSON.stringify(atualizados));
+    setMostrandoPagamento(false);
+    setAgendadoComSucesso(true);
+    setAgendamentoPendente(null);
+    carregarDados();
+  };
+
+  const cancelarPagamento = () => {
+    if (!agendamentoPendente) return;
+    const todos = JSON.parse(localStorage.getItem("agendamentos") || "[]");
+    const filtrados = todos.filter((a) => a.id !== agendamentoPendente.id);
+    localStorage.setItem("agendamentos", JSON.stringify(filtrados));
+    setMostrandoPagamento(false);
+    setAgendamentoPendente(null);
     carregarDados();
   };
 
@@ -251,6 +303,67 @@ function AgendaCliente() {
       carregarDados();
     }
   };
+
+  if (mostrandoPagamento && agendamentoPendente) {
+    const servicoInfoPendente = servicos.find(
+      (s) => s.nome === agendamentoPendente.servico,
+    );
+
+    return (
+      <div className="revisao-wrapper">
+        <div className="card-revisao">
+          <h2>Pagamento - Confirmação (50%)</h2>
+          <div className="revisao-detalhes">
+            {configAgenda?.pixQRCode && (
+              <div style={{ textAlign: "center", marginBottom: 12 }}>
+                <img
+                  src={configAgenda.pixQRCode}
+                  alt="PIX QR"
+                  style={{ maxWidth: 220, width: "100%", borderRadius: 8 }}
+                />
+              </div>
+            )}
+            <div className="detalhe-item">
+              <span className="detalhe-label">Chave PIX:</span>
+              <span className="detalhe-valor pix-copy-row">
+                {configAgenda?.pixChave
+                  ? configAgenda.pixChave.length > 11
+                    ? `${configAgenda.pixChave.slice(0, 11)}...`
+                    : configAgenda.pixChave
+                  : "Não informada"}
+                {configAgenda?.pixChave && (
+                  <button
+                    type="button"
+                    className="btn-copy-pix"
+                    onClick={() => copyPix(configAgenda.pixChave)}
+                    aria-label="Copiar chave PIX"
+                  >
+                    {copiadoPix ? "Copiado!" : "Copiar"}
+                  </button>
+                )}
+              </span>
+            </div>
+            <p style={{ marginTop: 12 }}>
+              Para confirmar o agendamento é necessário o pagamento de 50% do
+              valor{" "}
+              {servicoInfoPendente ? `- R$ ${servicoInfoPendente.preco}` : ""}.
+            </p>
+          </div>
+          <div className="botoes-revisao">
+            <button onClick={cancelarPagamento} className="btn-voltar-revisao">
+              Cancelar
+            </button>
+            <button
+              onClick={pagamentoEfetuado}
+              className="btn-confirmar-revisao"
+            >
+              Pagamento Efetuado
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (agendadoComSucesso) {
     return (
@@ -478,6 +591,11 @@ function AgendaCliente() {
                     <span className={`mensagem-status msg-${status}`}>
                       {mensagemStatus}
                     </span>
+                    {m.pago50 && (
+                      <span className="info-adiantada" style={{ marginTop: 8 }}>
+                        💳 50% pago
+                      </span>
+                    )}
                     {m.horaAdiantada && (
                       <span className="info-adiantada">
                         Manicure: você pode vir às {m.horaAdiantada}

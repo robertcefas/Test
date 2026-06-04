@@ -25,6 +25,4 @@ If you are developing a production application, we recommend using TypeScript wi
 >>>>>>> a534cb8 (primerio commit)
 >>>>>>> 6d89b93e1ac5778b1d47cb718d3227c956fe21f2
 
-Mudar a redes sociais na aba 
-/AgendaCliente.jsx 
-na linhas 19 e 20
+Mudar a redes sociais na aba /AgendaCliente.jsx na linhas 19 e 20
